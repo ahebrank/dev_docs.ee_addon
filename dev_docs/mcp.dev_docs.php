@@ -75,11 +75,11 @@ class Dev_docs_mcp {
 		
 		// Grab our developer documentation. Expects a textile formatted document
 		// but will technically read any real file.
-		$filepath = APPPATH . 'third_party/dev_docs/views/mod_docs.textile';
+		$filepath = APPPATH . 'third_party/dev_docs/views/mod_docs.md';
 		if ( ! file_exists($filepath))
 		{
 			// check the new third party config path
-			$filepath = $this->_EE->config->item('third_party_path').'dev_docs/views/mod_docs.textile';
+			$filepath = $this->_EE->config->item('third_party_path').'dev_docs/views/mod_docs.md';
 		}
 		if ( ! file_exists($filepath))
 		{
