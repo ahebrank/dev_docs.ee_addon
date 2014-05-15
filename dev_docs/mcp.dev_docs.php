@@ -68,18 +68,18 @@ class Dev_docs_mcp {
 	 */
 	public function index()
 	{
-		
+		$dev_docs_view = 'mod_docs.textile';	
 		// Start off with a consistent breadcrumb addition
 		$name = ($this->_EE->config->item('dev_docs_cp_name')) ? $this->_EE->config->item('dev_docs_cp_name') : lang('dev_docs_module_name') ;
 		$this->_EE->cp->set_breadcrumb($this->_url_base, $name);
 		
 		// Grab our developer documentation. Expects a textile formatted document
 		// but will technically read any real file.
-		$filepath = APPPATH . 'third_party/dev_docs/views/mod_docs.md';
+		$filepath = APPPATH . 'third_party/dev_docs/views/'. $dev_docs_view;
 		if ( ! file_exists($filepath))
 		{
 			// check the new third party config path
-			$filepath = $this->_EE->config->item('third_party_path').'dev_docs/views/mod_docs.md';
+			$filepath = $this->_EE->config->item('third_party_path').'dev_docs/views/'. $dev_docs_view;
 		}
 		if ( ! file_exists($filepath))
 		{
@@ -127,7 +127,8 @@ class Dev_docs_mcp {
 		$theme_url = $this->_EE->config->item('theme_folder_url') . 'third_party/dev_docs/';
 		$this->_EE->cp->add_to_head('<link rel="stylesheet" type="text/css" href="' . $theme_url . 'dev_docs.css" />');
 		
-		$this->_EE->cp->set_variable('cp_page_title', $current_page->heading);
+		// $this->_EE->cp->set_variable('cp_page_title', $current_page->heading);
+		$this->_EE->view->cp_page_title = $current_page->heading;
 		$this->_EE->cp->set_right_nav($menu_array);
 		
 		$data['content'] = $current_page->content;

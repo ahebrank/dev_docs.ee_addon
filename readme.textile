@@ -18,7 +18,7 @@ A screenshot from one of our actual documentation pages on a project (slightly a
 
 h2. Compatibility
 
-Dev Docs requires ExpressionEngine 2.x
+Dev Docs requires ExpressionEngine 2.6+
 
 
 h2. Installation
@@ -26,7 +26,7 @@ h2. Installation
 * Move the @dev_docs@ folder into your @expressionengine/third_party@ folder
 * Move the @themes/third_party/dev_docs@ folder into your @themes/third_party@ folder
 * Go to Modules &rarr; Dev Docs &rarr; Install
-* Update the path to your documentation file around line @78@ in the @dev_docs/mcp.dev_docs.php@ file
+* Update @$dev_docs_view@ to your documentation file around line @71@ in the @dev_docs/mcp.dev_docs.php@ file
 
 
 h2. Setup
@@ -52,7 +52,11 @@ Wait and see...
 
 h2. Change Log
 
-+*September 18, 2012: 0.1.6*+
+*May 15 2015: 0.1.7*
+
+* EE 2.8 compatibility
+
+*September 18, 2012: 0.1.6*
 
 * Added Accessory for Dev Docs dropdown menu so access could be controlled by group
 * Removed Extension

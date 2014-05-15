@@ -21,7 +21,7 @@
  * Also define the version constant to be
  * used in the extension and accessory files
  */
-$config['dd:version'] = "0.1.6";
+$config['dd:version'] = "0.1.7";
 if ( ! defined('DD_VERSION'))
 {
 	define('DD_VERSION',$config['dd:version']);

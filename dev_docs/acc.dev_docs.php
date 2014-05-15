@@ -17,7 +17,7 @@ require_once(PATH_THIRD . 'dev_docs/config/dev_docs.php');
 class Dev_docs_acc {
 	var $name        = "Dev Docs Accessory";
 	var $id          = 'dev_docs_acc';
-	var $version     = '1.0';
+	var $version     = '1.0.1';
 	var $description = "Adds a Dev Docs dropdown menu to the CP main menu";
 	var $sections    = array();
 	/**
@@ -57,7 +57,7 @@ class Dev_docs_acc {
 			}
 
 
-			$this->EE->cp->add_to_head('
+			$this->EE->cp->add_to_foot('
 				<script type="text/javascript">
 					$(document).ready(function(){
 
