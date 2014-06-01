@@ -74,7 +74,12 @@ class Docs_library
 		 */
 		$parse_type = 'parse_' . $file_ext;
 		$docs = $this->$parse_type($filepath);
-		
+
+		// smart path replacement for images
+		if ($this->_EE->config->item("dev_doc_image_path")) {
+			$docs = preg_replace('/<img src="(.*)"/', 
+				'<img src="'.$this->_EE->config->item("dev_doc_image_path").'/${1}"', $docs);
+		}
 		
 		// Strip out the first h1 section which is only needed when opening the file directly
 		// this regex matches "anything from the beginning of the file (string) until ::start::</p>"
