@@ -108,15 +108,16 @@ class Docs_library
 				}
 			}
 		}
+		else {
+			return false;
+		}
 		
 		// echo '<pre>';
 		// print_r($headings);
 		// print_r($content);
 		// exit;
 		
-		$this->_EE->load->model('dev_docs_model');
-		$this->_EE->dev_docs_model->save_docs($headings, $content);
-		
+		return array('headings' => $headings, 'content' => $content);
 	}
 	// End function parse_docs_file()
 	
@@ -154,7 +155,7 @@ class Docs_library
 	 */
 	public function parse_md($filepath = FALSE)
 	{
-		require('parsers/md/markdown.php');
+		require_once('parsers/md/markdown.php');
 		$docs = file_get_contents($filepath);
 		
 		return Markdown($docs);

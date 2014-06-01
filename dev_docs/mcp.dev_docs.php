@@ -91,16 +91,25 @@ class Dev_docs_mcp {
 		 */
 		if (filemtime($filepath) > $this->_EE->dev_docs_model->cached_timestamp())
 		{
-			// save new timestamp to DB
-			$this->_EE->dev_docs_model->save_timestamp(filemtime($filepath));
 			// delete doc rows
 			$this->_EE->dev_docs_model->clear_current_docs();
 			// Re-parse and re-save the docs
+			$headings = array();
+			$content = array();
 			// collect all the files in the directory
 			$docfiles = scandir($filepath);
 			foreach ($docfiles as $f) {
-				$this->_EE->docs_library->parse_docs_file($filepath.'/'.$f);
+				$docs = $this->_EE->docs_library->parse_docs_file($filepath.'/'.$f);
+				if ($docs) {
+					$headings = array_merge($headings, $docs['headings']);
+					$content = array_merge($content, $docs['content']);
+				}
 			}
+			$this->_EE->load->model('dev_docs_model');
+			$this->_EE->dev_docs_model->save_docs($headings, $content);
+		
+			// save new timestamp to DB
+			$this->_EE->dev_docs_model->save_timestamp(filemtime($filepath));
 		}
 		
 		
