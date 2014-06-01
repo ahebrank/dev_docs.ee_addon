@@ -68,23 +68,16 @@ class Dev_docs_mcp {
 	 */
 	public function index()
 	{
-		$dev_docs_view = 'mod_docs.textile';	
 		// Start off with a consistent breadcrumb addition
 		$name = ($this->_EE->config->item('dev_docs_cp_name')) ? $this->_EE->config->item('dev_docs_cp_name') : lang('dev_docs_module_name') ;
 		$this->_EE->cp->set_breadcrumb($this->_url_base, $name);
 		
 		// Grab our developer documentation. Expects a textile formatted document
 		// but will technically read any real file.
-		$filepath = APPPATH . 'third_party/dev_docs/views/'. $dev_docs_view;
+		$filepath = $this->_EE->config->item('dev_docs_path');
 		if ( ! file_exists($filepath))
 		{
-			// check the new third party config path
-			$filepath = $this->_EE->config->item('third_party_path').'dev_docs/views/'. $dev_docs_view;
-		}
-		if ( ! file_exists($filepath))
-		{
-			show_error('The developer documentation file (' . $filepath . ') does not exist.
-			            Eventually this will be a specific view file but it\'s early in the add-on\'s development.');
+			show_error('The developer documentation folder (' . $filepath . ') does not exist.');
 		}
 		
 		/**
@@ -103,12 +96,17 @@ class Dev_docs_mcp {
 			// delete doc rows
 			$this->_EE->dev_docs_model->clear_current_docs();
 			// Re-parse and re-save the docs
-			$this->_EE->docs_library->parse_docs_file($filepath);
+			// collect all the files in the directory
+			$docfiles = scandir($filepath);
+			foreach ($docfiles as $f) {
+				$this->_EE->docs_library->parse_docs_file($filepath.'/'.$f);
+			}
 		}
 		
 		
 		// Query to get our menu titles
 		$pages = $this->_EE->dev_docs_model->get_pages();
+		$menu_array = array();
 		foreach ($pages as $page) {
 			$menu_array[$page['heading']] = $this->_url_base . AMP . 'docs_page=' . $page['short_name'];
 		}
@@ -128,10 +126,10 @@ class Dev_docs_mcp {
 		$this->_EE->cp->add_to_head('<link rel="stylesheet" type="text/css" href="' . $theme_url . 'dev_docs.css" />');
 		
 		// $this->_EE->cp->set_variable('cp_page_title', $current_page->heading);
-		$this->_EE->view->cp_page_title = $current_page->heading;
+		$this->_EE->view->cp_page_title = ($current_page? $current_page->heading: "No page found");
 		$this->_EE->cp->set_right_nav($menu_array);
 		
-		$data['content'] = $current_page->content;
+		$data['content'] = ($current_page? $current_page->content: "");
 		
 		return $this->_EE->load->view('cp_index', $data, TRUE);
 		

@@ -60,9 +60,9 @@ class Docs_library
 		$file_ext = substr(strrchr($filepath,'.'), 1);
 		
 		// Make sure the filetype is supported and the parser is built in to this library
-		if ( ! array_key_exists($file_ext, $this->parsers) OR ! method_exists(__CLASS__, 'parse_' . $file_ext))
+		if ( empty($file_ext) OR ! array_key_exists($file_ext, $this->parsers) OR ! method_exists(__CLASS__, 'parse_' . $file_ext))
 		{
-			show_error('The file type you have specified (' . $file_ext . ') is not currently supported.');
+			return false;
 		}
 		
 		
